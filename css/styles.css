@@ -39,8 +39,9 @@ body {
 
 #getLocation {
   display: block;
-  padding: 20px;
+  height: 50px;
   margin: 50px auto;
+  padding: 0 20px;
 }
 
 #Results {
@@ -49,6 +50,6 @@ body {
 }
 
 #map {
-  max-width: 500px;
   margin: 40px auto;
+  height: 400px;
 }

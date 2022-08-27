@@ -10,9 +10,14 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="script/map.js"></script>
+    <script data-cfasync="false" data-no-instant="" src="//code.jquery.com/jquery-3.1.0.min.js" type="text/javascript"></script>
     <!-- jsFiddle will insert css and js -->
   </head>
   <body>
+    <button id="getLocation">Get Current Location</button>
+
+    <div id="Results"></div>
+
     <div id="map"></div>
 
     <!-- 
@@ -22,7 +27,7 @@
      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
     -->
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB53r8Sus-2gEl3ogK7Z5UdwYgvbLHppZM&callback=initMap&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL1YlMnOHhqWZUoIxSe_HEM67MiuEwf04&callback=initMap&v=weekly"
       defer
     ></script>
   </body>

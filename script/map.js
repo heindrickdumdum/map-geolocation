@@ -8,6 +8,22 @@
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
 let map, infoWindow;
+var getJSON = function(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.responseType = 'json';
+  xhr.onload = function() {
+    var status = xhr.status;
+    if (status === 200) {
+      callback(null, xhr.response);
+    } else {
+      callback(status, xhr.response);
+    }
+  };
+  xhr.send();
+};
+
+
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -17,11 +33,13 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow();
 
   const locationButton = document.createElement("button");
+  const getLocButton = document.querySelector("#getLocation");
 
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-  locationButton.addEventListener("click", () => {
+  getLocButton.addEventListener("click", () => {
+    $('#Results').html("Loading...");
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -37,18 +55,15 @@ function initMap() {
           map.setCenter(pos);
           console.log(position)
 
-          let geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+pos.lat+","+pos.lng+"&key=AIzaSyB53r8Sus-2gEl3ogK7Z5UdwYgvbLHppZM";
-          let response = fetch(geocodeUrl)
-          .then(response => {
-            console.log(response)
-          })
-          .catch(error => {
-            console.log(error)
+          getJSON("https://maps.googleapis.com/maps/api/geocode/json?latlng="+pos.lat+","+pos.lng+"&key=AIzaSyDL1YlMnOHhqWZUoIxSe_HEM67MiuEwf04",
+          function(err, data) {
+            let firstData = data.results[0].address_components
+            $('#Results').html("");
+            firstData.forEach(function(address){
+              $('#Results').append("<div>"+ address.long_name + " - " + address["types"][0] +"</div>");
+             })
           });
 
-          response;
-
-          
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter());

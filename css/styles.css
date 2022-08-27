@@ -37,3 +37,18 @@ body {
   background: rgb(235, 235, 235);
 }
 
+#getLocation {
+  display: block;
+  padding: 20px;
+  margin: 50px auto;
+}
+
+#Results {
+  text-align: center;
+  margin: 50px 0;
+}
+
+#map {
+  max-width: 500px;
+  margin: 40px auto;
+}

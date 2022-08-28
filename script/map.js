@@ -55,13 +55,49 @@ function initMap() {
           map.setCenter(pos);
           console.log(position)
 
-          getJSON("https://maps.googleapis.com/maps/api/geocode/json?latlng="+pos.lat+","+pos.lng+"&key=AIzaSyDL1YlMnOHhqWZUoIxSe_HEM67MiuEwf04",
+          getJSON("https://maps.googleapis.com/maps/api/geocode/json?latlng="+pos.lat+","+pos.lng+"&key=AIzaSyDL1YlMnOHhqWZUoIxSe_HEM67MiuEwf04&language=en&sensor=false",
           function(err, data) {
+            console.log(data.results)
+            let zip_code = "";
+            let province = "";
+            let brgy = "";
+            let city = "";
+            let resultsData = data.results;
             let firstData = data.results[0].address_components
             $('#Results').html("");
-            firstData.forEach(function(address){
-              $('#Results').append("<div>"+ address.long_name + " - " + address["types"][0] +"</div>");
-             })
+            
+            console.log(resultsData)
+            // firstData.forEach(function(address){
+            //   $('#Results').append("<div>"+ address.long_name + " - " + address["types"][0] +"</div>");
+            //  })
+
+            resultsData.forEach((element) => {
+              // console.log(element)
+              element.address_components.forEach(function(address){
+                // $('#Results').append("<div>"+ address.long_name + " - " + address["types"][0] +"</div>");
+                if(address["types"][0] == 'postal_code') {
+                  zip_code = address.long_name
+                }
+
+                if(address["types"][0] == 'administrative_area_level_2') {
+                  province = address.long_name
+                }
+
+                if(address["types"][0] == 'administrative_area_level_5') {
+                  brgy = address.long_name
+                }
+                
+                if(address["types"][0] == 'locality') {
+                  city = address.long_name
+                }
+              })
+            });
+            
+            // $('#Results').append("<div>"+ address.long_name + " - " + address["types"][0] +"</div>");
+            $('#Results').append("<div>Zip Code: "+ zip_code +"</div>")
+            $('#Results').append("<div>Province: "+ province +"</div>")
+            $('#Results').append("<div>brgy: "+ brgy +"</div>")
+            $('#Results').append("<div>City: "+ city +"</div>")
           });
 
         },
